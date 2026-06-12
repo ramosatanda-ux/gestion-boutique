@@ -1,6 +1,6 @@
 FROM php:8.2-cli
 
-# v4 - force cache bust
+# v5 - config:cache moved to runtime
 RUN apt-get update -y && apt-get install -y --no-install-recommends \
     git \
     curl \
@@ -24,8 +24,6 @@ COPY . .
 
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-RUN php artisan config:cache && \
-    php artisan route:cache && \
-    php artisan view:cache
+RUN php artisan view:cache
 
-CMD ["sh", "-c", "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"]
+CMD ["sh", "-c", "php artisan config:cache && php artisan route:cache && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"]

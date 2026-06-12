@@ -11,18 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-     
-
-    Schema::create('vente_items', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('vente_id')->constrained()->cascadeOnDelete();
-        $table->foreignId('produit_id')->constrained();
-        $table->integer('quantite');
-        $table->integer('prix');
-        $table->integer('total');
-        $table->timestamps();
-    });
-
+        if (!Schema::hasTable('vente_items')) {
+            Schema::create('vente_items', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('vente_id')->constrained()->cascadeOnDelete();
+                $table->foreignId('produit_id')->constrained();
+                $table->integer('quantite');
+                $table->integer('prix');
+                $table->integer('total');
+                $table->timestamps();
+            });
+        }
     }
 
     /**
