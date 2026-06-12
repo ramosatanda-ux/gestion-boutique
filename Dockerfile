@@ -3,7 +3,7 @@ FROM php:8.2-cli
 RUN apt-get update && apt-get install -y \
     git curl unzip \
     libpng-dev libjpeg-dev libfreetype6-dev \
-    libzip-dev libxml2-dev libicu-dev \
+    libzip-dev libxml2-dev libicu-dev libonig-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo pdo_mysql mbstring zip xml bcmath intl tokenizer fileinfo \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
