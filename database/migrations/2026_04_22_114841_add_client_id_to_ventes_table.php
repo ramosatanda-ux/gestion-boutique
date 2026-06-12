@@ -12,8 +12,12 @@ return new class extends Migration
 public function up()
 {
     Schema::table('ventes', function (Blueprint $table) {
-        $table->foreignId('client_id')->nullable()->constrained()->nullOnDelete();
-        $table->boolean('est_credit')->default(false);
+        if (!Schema::hasColumn('ventes', 'client_id')) {
+            $table->foreignId('client_id')->nullable()->constrained()->nullOnDelete();
+        }
+        if (!Schema::hasColumn('ventes', 'est_credit')) {
+            $table->boolean('est_credit')->default(false);
+        }
     });
 }
 

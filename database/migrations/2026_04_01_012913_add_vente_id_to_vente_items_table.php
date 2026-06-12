@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up()
 {
-    Schema::table('vente_items', function (Blueprint $table) {
-        $table->foreignId('vente_id')->constrained()->onDelete('cascade');
-    });
+    // vente_id déjà inclus dans 015913_create_vente_items_table
+    if (Schema::hasTable('vente_items') && !Schema::hasColumn('vente_items', 'vente_id')) {
+        Schema::table('vente_items', function (Blueprint $table) {
+            $table->foreignId('vente_id')->constrained()->onDelete('cascade');
+        });
+    }
 }
 
     /**

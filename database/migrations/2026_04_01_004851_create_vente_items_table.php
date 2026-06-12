@@ -11,15 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vente_items', function (Blueprint $table) {
-    $table->id();
-    $table->foreignId('facture_id')->constrained()->onDelete('cascade');
-    $table->foreignId('produit_id')->constrained();
-    $table->integer('quantite');
-    $table->integer('prix');
-    $table->integer('total');
-    $table->timestamps();
-});
+        // Remplacée par 015913_create_vente_items_table (structure correcte avec vente_id)
     }
 
     /**
