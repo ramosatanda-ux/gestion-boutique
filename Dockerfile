@@ -1,6 +1,6 @@
 FROM php:8.2-cli
 
-# v7 - inline CMD (avoid CRLF), no route:cache
+# v8 - php -S instead of artisan serve, server.php router
 RUN apt-get update -y && apt-get install -y --no-install-recommends \
     git \
     curl \
@@ -24,4 +24,4 @@ COPY . .
 
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-CMD ["sh", "-c", "echo '=== BOOT ===' && echo PORT=$PORT && php artisan config:cache && echo 'Config OK' && php artisan migrate --force && echo 'Migrate OK' && echo 'Serving on port '${PORT:-8000} && exec php artisan serve --host=0.0.0.0 --port=${PORT:-8000}"]
+CMD ["sh", "-c", "php artisan migrate --force && exec php -S 0.0.0.0:${PORT:-8000} server.php"]
