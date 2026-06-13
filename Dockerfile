@@ -1,6 +1,6 @@
 FROM php:8.2-cli
 
-# v5 - config:cache moved to runtime
+# v6 - startup script for debug + remove view:cache from build
 RUN apt-get update -y && apt-get install -y --no-install-recommends \
     git \
     curl \
@@ -24,6 +24,6 @@ COPY . .
 
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-RUN php artisan view:cache
+RUN chmod +x /var/www/html/start.sh
 
-CMD ["sh", "-c", "php artisan config:cache && php artisan route:cache && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"]
+CMD ["/var/www/html/start.sh"]
