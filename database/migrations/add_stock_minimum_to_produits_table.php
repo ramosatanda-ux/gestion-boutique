@@ -10,10 +10,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('produits', function (Blueprint $table) {
-            // Alerte stock minimum (défaut : 5 unités)
-            $table->integer('stock_minimum')->default(5)->after('quantite');
-            // Description optionnelle
-            $table->string('description')->nullable()->after('nom');
+            if (!Schema::hasColumn('produits', 'stock_minimum')) {
+                $table->integer('stock_minimum')->default(5)->after('quantite');
+            }
+            if (!Schema::hasColumn('produits', 'description')) {
+                $table->string('description')->nullable()->after('nom');
+            }
         });
     }
 

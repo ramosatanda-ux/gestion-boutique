@@ -9,9 +9,11 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('produits', function (Blueprint $table) {
-            $table->string('code_barre')->unique()->nullable()->after('nom');
-        });
+        if (!Schema::hasColumn('produits', 'code_barre')) {
+            Schema::table('produits', function (Blueprint $table) {
+                $table->string('code_barre')->unique()->nullable()->after('nom');
+            });
+        }
     }
 
     public function down(): void
