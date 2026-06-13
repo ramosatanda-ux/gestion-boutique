@@ -1,6 +1,6 @@
 FROM php:8.2-cli
 
-# v6 - startup script for debug + remove view:cache from build
+# v7 - inline CMD (avoid CRLF), no route:cache
 RUN apt-get update -y && apt-get install -y --no-install-recommends \
     git \
     curl \
@@ -24,6 +24,4 @@ COPY . .
 
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-RUN chmod +x /var/www/html/start.sh
-
-CMD ["/var/www/html/start.sh"]
+CMD ["sh", "-c", "echo '=== BOOT ===' && echo PORT=$PORT && php artisan config:cache && echo 'Config OK' && php artisan migrate --force && echo 'Migrate OK' && echo 'Serving on port '${PORT:-8000} && exec php artisan serve --host=0.0.0.0 --port=${PORT:-8000}"]
